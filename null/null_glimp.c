@@ -19,7 +19,7 @@ along with Foobar; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
-#include "../renderer/tr_local.h"
+#include "tr_local.h"
 
 
 qboolean ( * qwglSwapIntervalEXT)( int interval );
@@ -35,7 +35,7 @@ void ( * qglUnlockArraysEXT) ( void );
 void		GLimp_EndFrame( void ) {
 }
 
-int 		GLimp_Init( void )
+void 		GLimp_Init( void )
 {
 }
 

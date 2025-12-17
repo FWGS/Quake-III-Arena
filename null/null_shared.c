@@ -1,6 +1,6 @@
 /*
 ===========================================================================
-Copyright (C) 1999-2005 Id Software, Inc.
+Copyright (C) 2025 Alibek Omarov
 
 This file is part of Quake III Arena source code.
 
@@ -19,39 +19,43 @@ along with Foobar; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
-
 #include "q_shared.h"
 #include "qcommon.h"
 
-qboolean Sys_StringToAdr (const char *s, netadr_t *a)
+char **Sys_ListFiles( const char *directory, const char *extension, char *filter, int *numfiles, qboolean wantsubs )
 {
-	return qfalse;
+	return NULL;
 }
 
-/*
-==================
-Sys_SendPacket
-==================
-*/
-void Sys_SendPacket( int length, const void *data, netadr_t to ) {
-}
-
-/*
-==================
-Sys_GetPacket
-
-Never called by the game logic, just the system event queing
-==================
-*/
-qboolean	Sys_GetPacket ( netadr_t *net_from, msg_t *net_message ) {
-	return qfalse;
-}
-
-qboolean Sys_IsLANAddress( netadr_t adr )
+void Sys_FreeFileList( char **list )
 {
-	return qtrue;
 }
 
-void NET_Sleep( int msec )
+void Sys_ShowConsole( int visLevel, qboolean quitOnClose )
 {
+}
+
+void Sys_SnapVector( float *v ) { // bk001213 - see win32/win_shared.c
+  // bk001213 - old linux
+  v[0] = rint(v[0]);
+  v[1] = rint(v[1]);
+  v[2] = rint(v[2]);
+}
+
+char *Sys_DefaultCDPath(void)
+{
+	static char null[1] = { 0 };
+        return null;
+}
+
+char *Sys_DefaultInstallPath(void)
+{
+	static char null[1] = { 0 };
+        return null;
+}
+
+char *Sys_DefaultHomePath(void)
+{
+	static char null[1] = { 0 };
+        return null;
 }
