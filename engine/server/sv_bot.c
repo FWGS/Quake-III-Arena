@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // sv_bot.c
 
 #include "server.h"
-#include "../game/botlib.h"
+#include "botlib.h"
 
 typedef struct bot_debugpoly_s
 {
@@ -557,7 +557,8 @@ void SV_BotInitBotLib(void) {
 	botlib_import.DebugPolygonCreate = BotImport_DebugPolygonCreate;
 	botlib_import.DebugPolygonDelete = BotImport_DebugPolygonDelete;
 
-	botlib_export = (botlib_export_t *)GetBotLibAPI( BOTLIB_API_VERSION, &botlib_import );
+	// a1ba: commented, as where we're going we ain't gonna have bots
+	// botlib_export = (botlib_export_t *)GetBotLibAPI( BOTLIB_API_VERSION, &botlib_import );
 	assert(botlib_export); 	// bk001129 - somehow we end up with a zero import.
 }
 
