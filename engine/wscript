@@ -21,8 +21,8 @@ def configure(conf):
 	return
 
 def build(bld):
-	bld(name = 'server_includes', export_includes = '.')
+	bld(name = 'engine_includes', export_includes = 'client qcommon server')
 
-	bld.stlib(source = bld.path.ant_glob('*.c'),
-		target = 'server',
-		use = 'server_includes')
+	bld.stlib(source = bld.path.ant_glob('qcommon/*.c server/*.c'),
+		target = 'engine',
+		use = 'q_shared engine_includes game_includes game_includes cgame_includes ui_includes renderer_includes')
