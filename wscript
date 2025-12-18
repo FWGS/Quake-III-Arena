@@ -31,7 +31,6 @@ class Subproject:
 		return True
 
 SUBDIRS = [
-	#Subproject("jpeg-6"),
 	Subproject("null"),
 	Subproject("engine"),
 
