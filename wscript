@@ -34,9 +34,6 @@ SUBDIRS = [
 	Subproject("null"),
 	Subproject("engine"),
 
-	Subproject("renderer"),
-
-	#Subproject("botlib"),
 	Subproject("cgame"),
 	Subproject("game"),
 	Subproject("ui"),
