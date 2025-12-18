@@ -1,0 +1,7 @@
+# Waf
+build/
+.lock*
+.waf*
+
+# Python
+*.pyc
