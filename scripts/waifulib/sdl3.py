@@ -22,17 +22,12 @@ int main( void )
 }'''
 
 def options(opt):
-	grp = opt.add_option_group('SDL2/SDL3 options')
-	grp.add_option('-s', '--sdl2', action='store', dest = 'SDL_PATH', default = None,
+	grp = opt.add_option_group('SDL3 options')
+	grp.add_option('-s', '--sdl3', action='store', dest = 'SDL_PATH', default = None,
 		help = 'path to precompiled SDL library (required for Windows)')
 
-	grp.add_option('--use-sdl3', action='store_true', dest='SDL3', default = False, help = 'configure for SDL3 [default: %(default)s]')
-
-	grp.add_option('--skip-sdl2-sanity-check', action='store_false', default = True, dest='SDL_SANITY_CHECK',
+	grp.add_option('--skip-sdl3-sanity-check', action='store_false', default = True, dest='SDL_SANITY_CHECK',
 		help = 'skip checking SDL sanity [default: %(default)s]')
-
-	grp.add_option('--sdl-use-pkgconfig', action='store_true', default = False, dest='SDL_USE_PKGCONFIG',
-		help = 'force use of pkg-config to find sdl [default: %(default)s]')
 
 def my_dirname(path):
 	# really dumb, will not work with /path/framework//, but still enough
@@ -78,10 +73,7 @@ def sdl2_configure_path(conf, path, libname):
 		conf.end_msg('yes: {0}, {1}, {2}'.format(conf.env[LIB], conf.env[LIBPATH], conf.env[INCLUDES]))
 
 def configure(conf):
-	if conf.options.SDL3:
-		libname = 'SDL3'
-	else:
-		libname = 'SDL2'
+	libname = 'SDL3'
 
 	HAVE          = 'HAVE_' + libname
 	CFLAGS        = 'CFLAGS_' + libname
@@ -92,31 +84,13 @@ def configure(conf):
 		sdl2_configure_path(conf, conf.options.SDL_PATH, libname)
 	elif conf.env.DEST_OS == 'darwin' and conf.options.SDL_USE_PKGCONFIG == False:
 		sdl2_configure_path(conf, '/Library/Frameworks/%s.framework' % libname, libname)
-	elif conf.env.DEST_OS == 'emscripten':
-		flag = '-sUSE_SDL=%d' % (3 if conf.options.SDL3 else 2)
-		conf.env[HAVE] = 1
-		conf.env[CFLAGS] = [flag]
-		conf.env[CXXFLAGS] = [flag]
-		conf.env[LINKFLAGS] = [flag]
 	else:
 		try:
 			conf.check_cfg(package=libname.lower(), args='--cflags --libs',
 				msg='Checking for %s (pkg-config)' % libname)
 		except conf.errors.ConfigurationError:
-			try:
-				if not conf.env.SDLCONFIG:
-					conf.find_program('%s-config' % libname.lower(), var='SDLCONFIG')
-
-				conf.check_cfg(path=conf.env.SDLCONFIG, args='--cflags --libs',
-					msg='Checking for %s (%s-config)' % (libname, libname.lower()), package='',
-					uselib_store=libname)
-			except conf.errors.ConfigurationError:
-				conf.env[HAVE] = 0
+			conf.env[HAVE] = 0
 
 	if conf.env[HAVE] and conf.options.SDL_SANITY_CHECK:
-		if conf.options.SDL3:
-			fragment = SDL_SANITY_FRAGMENT % 'SDL3/SDL.h'
-		else:
-			fragment = SDL_SANITY_FRAGMENT % 'SDL.h'
-
+		fragment = SDL_SANITY_FRAGMENT % 'SDL3/SDL.h'
 		conf.env[HAVE] = conf.check_cc(fragment=fragment, msg = 'Checking for %s sanity' % libname, use = libname, execute = False, mandatory = False)

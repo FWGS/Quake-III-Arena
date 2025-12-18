@@ -40,7 +40,7 @@ SUBDIRS = [
 ]
 
 def options(opt):
-	opt.load('reconfigure compiler_optimizations xcompile compiler_c sdl2 clang_compilation_database strip_on_install waf_unit_test msvs subproject')
+	opt.load('reconfigure compiler_optimizations xcompile compiler_c sdl3 clang_compilation_database strip_on_install waf_unit_test msvs subproject')
 
 	grp = opt.add_option_group('Common options')
 	grp.add_option('--disable-rpath', action = 'store_false', dest = 'ENABLE_RPATH', default = True,
@@ -57,7 +57,8 @@ def configure(conf):
 	conf.load('fwgslib reconfigure compiler_optimizations xcompile compiler_c msvs subproject clang_compilation_database strip_on_install waf_unit_test enforce_pic force_32bit')
 
 	conf.check_pic(True)
-	conf.force_32bit()
+#	conf.force_32bit()
+	conf.load('sdl3')
 
 	cflags, linkflags = conf.get_optimization_flags()
 
